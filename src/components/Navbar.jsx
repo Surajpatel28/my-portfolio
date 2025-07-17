@@ -121,7 +121,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
           <div className="md:hidden flex items-center space-x-3">
             <motion.button
               onClick={toggleDarkMode}
-              className={`p-3 rounded-full transition-colors duration-200 min-w-12 min-h-12 flex items-center justify-center ${
+              className={`p-3 rounded-full transition-colors duration-200 min-w-12 min-h-12 flex items-center justify-center touch:min-h-14 touch:min-w-14 ${
                 darkMode
                   ? 'bg-gray-800 text-yellow-400 hover:bg-gray-700'
                   : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
@@ -134,7 +134,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
 
             <motion.button
               onClick={() => setIsOpen(!isOpen)}
-              className={`p-3 rounded-full transition-colors duration-200 min-w-12 min-h-12 flex items-center justify-center ${
+              className={`p-3 rounded-full transition-colors duration-200 min-w-12 min-h-12 flex items-center justify-center touch:min-h-14 touch:min-w-14 ${
                 darkMode
                   ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'

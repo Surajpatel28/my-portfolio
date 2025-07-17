@@ -94,7 +94,7 @@ export const MobileSkillsGrid = ({ skills, darkMode }) => {
           onClick={() => setShowAll(!showAll)}
           className={`mt-4 w-full py-2 px-4 rounded-lg font-semibold text-sm ${
             darkMode
-              ? 'bg-gray-800/50 text-blue-400 hover:bg-gray-700/50'
+              ? 'bg-gray-800/50 text-blue-400 hover:bg-gray-700'
               : 'bg-gray-100/50 text-blue-600 hover:bg-gray-200/50'
           }`}
           whileHover={{ scale: 1.02 }}
@@ -176,7 +176,7 @@ export const MobileProjectsGrid = ({ projects, darkMode }) => {
               href={project.githubLink}
               className={`flex-1 py-2 px-3 text-center text-xs font-semibold rounded-lg ${
                 darkMode
-                  ? 'bg-gray-700/50 text-gray-200 hover:bg-gray-600/50'
+                  ? 'bg-gray-700/50 text-gray-200 hover:bg-gray-700'
                   : 'bg-gray-200/50 text-gray-700 hover:bg-gray-300/50'
               }`}
             >

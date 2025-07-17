@@ -71,7 +71,7 @@ const Skills = ({ darkMode }) => {
     <section 
       id="skills" 
       className={`py-fluid-xl px-fluid-sm sm:px-fluid-md lg:px-fluid-lg ${
-        darkMode ? 'bg-gray-800/50' : 'bg-gray-50'
+        darkMode ? 'bg-gray-900/50' : 'bg-gray-50'
       }`}
     >
       <div className="container mx-auto max-w-8xl">
@@ -146,7 +146,7 @@ const Skills = ({ darkMode }) => {
               viewport={{ once: true }}
               className={`p-8 rounded-2xl relative overflow-hidden ${
                 darkMode 
-                  ? 'bg-gray-900/50 border border-gray-700' 
+                  ? 'bg-gray-800 border border-gray-700' 
                   : 'bg-white border border-gray-200 shadow-lg'
               }`}
             >
@@ -167,7 +167,7 @@ const Skills = ({ darkMode }) => {
               {/* Skills Grid - Mobile: Icons only, Desktop: Full cards */}
               
               {/* Mobile View - Enhanced Touch Experience */}
-              <div className="grid grid-cols-3 gap-4 sm:hidden">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 sm:hidden">
                 {category.skills.map((skill, skillIndex) => (
                   <motion.div
                     key={skill.name}
@@ -179,7 +179,7 @@ const Skills = ({ darkMode }) => {
                     whileTap={{ scale: 0.95 }}
                     className={`p-4 rounded-xl transition-all duration-300 text-center min-h-20 flex flex-col items-center justify-center ${
                       darkMode 
-                        ? 'bg-gray-800/50 hover:bg-gray-800 border border-gray-700/30' 
+                        ? 'bg-gray-800/50 hover:bg-gray-700 border border-gray-700/30' 
                         : 'bg-white/50 hover:bg-white border border-gray-200/30'
                     }`}
                     title={skill.name}
@@ -210,7 +210,7 @@ const Skills = ({ darkMode }) => {
                     whileHover={{ scale: 1.02, y: -2 }}
                     className={`p-4 rounded-lg transition-all duration-300 ${
                       darkMode 
-                        ? 'bg-gray-800/50 hover:bg-gray-800' 
+                        ? 'bg-gray-800/50 hover:bg-gray-700' 
                         : 'bg-gray-50 hover:bg-gray-100'
                     }`}
                   >
@@ -253,7 +253,7 @@ const Skills = ({ darkMode }) => {
         >
           <div className={`inline-flex items-center px-6 py-3 rounded-full ${
             darkMode 
-              ? 'bg-gray-900/50 border border-gray-700 text-gray-300' 
+              ? 'bg-gray-800 border border-gray-700 text-gray-300' 
               : 'bg-white border border-gray-200 text-gray-600 shadow-sm'
           }`}>
             <span className="text-sm font-medium">

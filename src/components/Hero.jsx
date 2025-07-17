@@ -27,7 +27,7 @@ const Hero = ({ darkMode }) => {
       className="min-h-screen flex items-center justify-center relative overflow-hidden px-fluid-sm sm:px-fluid-md lg:px-fluid-lg pt-16 sm:pt-20 pb-8"
     >
       {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{
             rotate: [0, 360],

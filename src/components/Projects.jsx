@@ -108,7 +108,7 @@ const Projects = ({ darkMode }) => {
                 darkMode 
                   ? 'bg-gray-800 border border-gray-700' 
                   : 'bg-white border border-gray-200'
-              } ${project.featured ? 'lg:col-span-1 md:col-span-2' : ''}`}
+              }`}
             >
               {/* Project Header */}
               <div className="p-6">
@@ -218,13 +218,13 @@ const Projects = ({ darkMode }) => {
           ))}
         </motion.div>
 
-        {/* Call to Action */}
+        {/* Call to Action - Desktop Only */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
           viewport={{ once: true }}
-          className="text-center mt-16"
+          className="hidden md:block text-center mt-16"
         >
           <p className={`text-lg mb-6 ${
             darkMode ? 'text-gray-300' : 'text-gray-600'
@@ -245,7 +245,7 @@ const Projects = ({ darkMode }) => {
         </motion.div>
 
         {/* Mobile View - Featured Projects Only */}
-        <div className="block md:hidden space-y-6">
+        <div className="block md:hidden mt-16 space-y-6">
           {projects.filter(project => project.featured).map((project, index) => (
             <motion.div
               key={project.title}
@@ -260,27 +260,22 @@ const Projects = ({ darkMode }) => {
               }`}
             >
               {/* Mobile Project Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center">
-                  <div className={`p-2 rounded-lg mr-3 ${
-                    darkMode ? 'bg-blue-600' : 'bg-blue-100'
+              <div className="flex items-center mb-4">
+                <div className={`p-2 rounded-lg mr-3 ${
+                  darkMode ? 'bg-blue-600' : 'bg-blue-100'
+                }`}>
+                  <div className={`text-lg ${
+                    darkMode ? 'text-white' : 'text-blue-600'
                   }`}>
-                    <div className={`text-lg ${
-                      darkMode ? 'text-white' : 'text-blue-600'
-                    }`}>
-                      {project.categoryIcon}
-                    </div>
+                    {project.categoryIcon}
                   </div>
-                  <div>
-                    <span className={`text-xs font-medium ${
-                      darkMode ? 'text-blue-400' : 'text-blue-600'
-                    }`}>
-                      {project.category}
-                    </span>
-                    <span className="ml-2 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs px-2 py-1 rounded-full">
-                      Featured
-                    </span>
-                  </div>
+                </div>
+                <div>
+                  <span className={`text-xs font-medium ${
+                    darkMode ? 'text-blue-400' : 'text-blue-600'
+                  }`}>
+                    {project.category}
+                  </span>
                 </div>
               </div>
 
@@ -293,59 +288,56 @@ const Projects = ({ darkMode }) => {
               <p className={`text-sm mb-4 leading-relaxed ${
                 darkMode ? 'text-gray-300' : 'text-gray-600'
               }`}>
-                {project.description.length > 120 
-                  ? `${project.description.substring(0, 120)}...` 
+                {project.description.length > 100 
+                  ? `${project.description.substring(0, 100).split(' ').slice(0, -1).join(' ')}...` 
                   : project.description
                 }
               </p>
 
               {/* Tech Stack - Mobile */}
-              <div className="flex flex-wrap gap-1 mb-4">
-                {project.tech.slice(0, 3).map((tech) => (
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.tech.map((tech) => (
                   <span
                     key={tech}
                     className={`text-xs px-2 py-1 rounded-md ${
                       darkMode 
-                        ? 'bg-gray-700/50 text-gray-300' 
-                        : 'bg-gray-100/50 text-gray-700'
+                        ? 'bg-gray-700 text-gray-300' 
+                        : 'bg-gray-100 text-gray-700'
                     }`}
                   >
                     {tech}
                   </span>
                 ))}
-                {project.tech.length > 3 && (
-                  <span className={`text-xs px-2 py-1 rounded-md ${
-                    darkMode ? 'text-gray-400' : 'text-gray-500'
-                  }`}>
-                    +{project.tech.length - 3}
-                  </span>
-                )}
               </div>
 
               {/* Action Buttons - Mobile Enhanced */}
               <div className="flex gap-4">
-                <a
+                <motion.a
                   href={project.githubLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`flex-1 py-4 px-6 text-center text-base font-semibold rounded-xl transition-all duration-200 min-h-14 flex items-center justify-center ${
                     darkMode
-                      ? 'bg-gray-700/50 text-gray-200 hover:bg-gray-600/50'
-                      : 'bg-gray-200/50 text-gray-700 hover:bg-gray-300/50'
+                      ? 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                   }`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <FiGithub className="mr-2" size={18} />
-                  View Code
-                </a>
-                <a
+                  Code
+                </motion.a>
+                <motion.a
                   href={project.demoLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 py-4 px-6 text-center text-base font-semibold rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white transition-all duration-200 min-h-14 flex items-center justify-center"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <FiExternalLink className="mr-2" size={18} />
-                  Live Demo
-                </a>
+                  Demo
+                </motion.a>
               </div>
             </motion.div>
           ))}
@@ -358,14 +350,21 @@ const Projects = ({ darkMode }) => {
             viewport={{ once: true }}
             className="text-center pt-6"
           >
-            <button className={`w-full py-4 px-6 text-base font-semibold rounded-xl transition-all duration-200 min-h-14 flex items-center justify-center ${
-              darkMode
-                ? 'bg-gray-800/50 text-blue-400 border border-gray-700/50 hover:bg-gray-700/50'
-                : 'bg-gray-100/50 text-blue-600 border border-gray-200/50 hover:bg-gray-200/50'
-            }`}>
+            <motion.a
+              href={SOCIAL_LINKS.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`w-full py-4 px-6 text-base font-semibold rounded-xl transition-all duration-200 min-h-14 flex items-center justify-center ${
+                darkMode
+                  ? 'bg-gray-800 text-blue-400 border border-gray-700 hover:bg-gray-700'
+                  : 'bg-gray-100 text-blue-600 border border-gray-200 hover:bg-gray-200'
+              }`}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
               <FiGithub className="mr-2" size={18} />
               View All {projects.length} Projects
-            </button>
+            </motion.a>
           </motion.div>
         </div>
       </div>

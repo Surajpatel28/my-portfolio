@@ -36,7 +36,7 @@ const App = () => {
   return (
     <div className={`min-h-screen transition-colors duration-300 ${
       darkMode 
-        ? 'bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900' 
+        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' 
         : 'bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100'
     }`}>
       <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
