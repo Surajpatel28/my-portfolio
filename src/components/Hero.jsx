@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { FiDownload, FiMail, FiGithub, FiLinkedin } from 'react-icons/fi';
 import { HiLocationMarker } from 'react-icons/hi';
 import { SOCIAL_LINKS } from '../constants/socialLinks';
+import { useFastScrollAnimation, useStaggeredAnimation, useMicroInteraction } from '../hooks/useFastAnimations';
 
 const Hero = ({ darkMode }) => {
   const [showNotification, setShowNotification] = useState(false);
+  
+  // Ultra-fast scroll animations
+  const [heroRef, heroVisible] = useFastScrollAnimation();
+  const [contentRef, contentVisible] = useStaggeredAnimation(3, 200);
+  const [isPressed, microHandlers] = useMicroInteraction();
 
   const scrollToContact = () => {
     const element = document.querySelector('#contact');
@@ -25,32 +30,17 @@ const Hero = ({ darkMode }) => {
     <section 
       id="home" 
       className="min-h-screen flex items-center justify-center relative overflow-hidden px-fluid-sm sm:px-fluid-md lg:px-fluid-lg pt-16 sm:pt-20 pb-8"
+      ref={heroRef}
     >
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          animate={{
-            rotate: [0, 360],
-          }}
-          transition={{
-            duration: 50,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className={`absolute top-1/4 -left-20 w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-full opacity-20 ${
+        <div
+          className={`absolute top-1/4 -left-20 w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-full opacity-20 animate-spin-slow ${
             darkMode ? 'bg-purple-500' : 'bg-blue-500'
           }`}
         />
-        <motion.div
-          animate={{
-            rotate: [360, 0],
-          }}
-          transition={{
-            duration: 40,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          className={`absolute bottom-1/4 -right-20 w-48 h-48 sm:w-60 sm:h-60 lg:w-72 lg:h-72 rounded-full opacity-20 ${
+        <div
+          className={`absolute bottom-1/4 -right-20 w-48 h-48 sm:w-60 sm:h-60 lg:w-72 lg:h-72 rounded-full opacity-20 animate-spin-reverse ${
             darkMode ? 'bg-blue-500' : 'bg-purple-500'
           }`}
         />
@@ -58,69 +48,56 @@ const Hero = ({ darkMode }) => {
 
       <div className="container mx-auto max-w-8xl grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 2xl:gap-20 items-center relative z-10">
         {/* Text Content */}
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center lg:text-left order-2 lg:order-1 space-y-fluid-sm"
+        <div
+          ref={contentRef}
+          className={`text-center lg:text-left order-2 lg:order-1 space-y-fluid-sm transition-all duration-700 ease-out ${
+            contentVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+          }`}
         >
           {/* Greeting */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className={`text-fluid-lg sm:text-fluid-xl ${
-              darkMode ? 'text-gray-300' : 'text-gray-600'
-            }`}
+          <p
+            className={`text-fluid-lg sm:text-fluid-xl transition-all duration-500 ease-out delay-200 ${
+              contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            } ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
           >
             Hello, I'm
-          </motion.p>
+          </p>
 
           {/* Name */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-fluid-4xl sm:text-fluid-5xl md:text-fluid-6xl lg:text-fluid-7xl xl:text-fluid-8xl font-bold leading-tight"
+          <h1
+            className={`text-fluid-4xl sm:text-fluid-5xl md:text-fluid-6xl lg:text-fluid-7xl xl:text-fluid-8xl font-bold leading-tight transition-all duration-600 ease-out delay-400 ${
+              contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
           >
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
               Suraj Patel
             </span>
-          </motion.h1>
+          </h1>
 
           {/* Title */}
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className={`text-fluid-xl sm:text-fluid-2xl md:text-fluid-3xl lg:text-fluid-4xl font-semibold ${
-              darkMode ? 'text-gray-100' : 'text-gray-800'
-            }`}
+          <h2
+            className={`transition-all duration-600 ease-out delay-600 text-fluid-xl sm:text-fluid-2xl md:text-fluid-3xl lg:text-fluid-4xl font-semibold ${
+              contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            } ${darkMode ? 'text-gray-100' : 'text-gray-800'}`}
           >
             AI/ML & Full-Stack Developer
-          </motion.h2>
+          </h2>
 
           {/* Location */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className={`flex items-center justify-center lg:justify-start gap-2 ${
-              darkMode ? 'text-gray-300' : 'text-gray-600'
-            }`}
+          <div
+            className={`flex items-center justify-center lg:justify-start gap-2 transition-all duration-600 ease-out delay-800 ${
+              contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            } ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
           >
             <HiLocationMarker className="w-5 h-5 sm:w-6 sm:h-6" />
             <span className="text-fluid-base sm:text-fluid-lg">India</span>
-          </motion.div>
+          </div>
 
           {/* Description - Responsive content */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.0 }}
-            className={`text-fluid-sm sm:text-fluid-base md:text-fluid-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 ${
-              darkMode ? 'text-gray-300' : 'text-gray-600'
-            }`}
+          <p
+            className={`text-fluid-sm sm:text-fluid-base md:text-fluid-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 transition-all duration-600 ease-out delay-1000 ${
+              contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            } ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
           >
             <span className="block xs:hidden">
               Building AI systems & web apps. ML, computer vision & scalable tech.
@@ -132,97 +109,82 @@ const Hero = ({ darkMode }) => {
               Passionate about building intelligent systems and modern web applications. 
               Specializing in AI agents, computer vision, and scalable backend architectures.
             </span>
-          </motion.p>
+          </p>
 
           {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.2 }}
-            className="flex flex-col xs:flex-row gap-fluid-sm sm:gap-fluid-md justify-center lg:justify-start pt-fluid-sm"
+          <div
+            className={`flex flex-col xs:flex-row gap-fluid-sm sm:gap-fluid-md justify-center lg:justify-start pt-fluid-sm transition-all duration-600 ease-out delay-1200 ${
+              contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
           >
-            <motion.button
+            <button
               onClick={handleDownloadCV}
-              className="inline-flex items-center justify-center px-8 py-4 lg:px-10 lg:py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-fluid-sm sm:text-fluid-base min-h-12 touch:min-h-14"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center justify-center px-8 py-4 lg:px-10 lg:py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-fluid-sm sm:text-fluid-base min-h-12 touch:min-h-14 hover-lift"
+              {...microHandlers}
             >
               <FiDownload className="mr-2 w-5 h-5" />
               <span>Download CV</span>
-            </motion.button>
+            </button>
             
-            <motion.button
+            <button
               onClick={scrollToContact}
-              className={`inline-flex items-center justify-center px-8 py-4 lg:px-10 lg:py-4 border-2 font-semibold rounded-full transition-all duration-300 text-fluid-sm sm:text-fluid-base min-h-12 touch:min-h-14 ${
+              className={`inline-flex items-center justify-center px-8 py-4 lg:px-10 lg:py-4 border-2 font-semibold rounded-full transition-all duration-300 text-fluid-sm sm:text-fluid-base min-h-12 touch:min-h-14 hover-lift ${
                 darkMode
                   ? 'border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white'
                   : 'border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white'
               }`}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+              {...microHandlers}
             >
               <FiMail className="mr-2 w-5 h-5" />
               <span>Contact Me</span>
-            </motion.button>
-          </motion.div>
+            </button>
+          </div>
 
           {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.4 }}
-            className="flex gap-6 justify-center lg:justify-start pt-fluid-sm"
+          <div
+            className={`flex gap-6 justify-center lg:justify-start pt-fluid-sm transition-all duration-600 ease-out delay-1400 ${
+              contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
           >
-            <motion.a
+            <a
               href={SOCIAL_LINKS.github}
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-4 rounded-full transition-all duration-300 min-w-14 min-h-14 flex items-center justify-center ${
+              className={`p-4 rounded-full transition-all duration-300 min-w-14 min-h-14 flex items-center justify-center hover-scale ${
                 darkMode
                   ? 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900'
               }`}
-              whileHover={{ scale: 1.1, y: -2 }}
-              whileTap={{ scale: 0.9 }}
+              {...microHandlers}
             >
               <FiGithub className="w-6 h-6" />
-            </motion.a>
+            </a>
             
-            <motion.a
+            <a
               href={SOCIAL_LINKS.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-4 rounded-full transition-all duration-300 min-w-14 min-h-14 flex items-center justify-center ${
+              className={`p-4 rounded-full transition-all duration-300 min-w-14 min-h-14 flex items-center justify-center hover-scale ${
                 darkMode
                   ? 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900'
               }`}
-              whileHover={{ scale: 1.1, y: -2 }}
-              whileTap={{ scale: 0.9 }}
+              {...microHandlers}
             >
               <FiLinkedin className="w-6 h-6" />
-            </motion.a>
-          </motion.div>
-        </motion.div>
+            </a>
+          </div>
+        </div>
 
         {/* Avatar/Image Section - Progressive display */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
-          className="hidden sm:flex justify-center lg:justify-end order-1 lg:order-2"
+        <div
+          className={`hidden sm:flex justify-center lg:justify-end order-1 lg:order-2 transition-all duration-800 ease-out delay-300 ${
+            heroVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
+          }`}
         >
           <div className="relative">
-            <motion.div
-              animate={{
-                y: [0, -20, 0],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className={`w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-88 lg:h-88 xl:w-96 xl:h-96 rounded-full relative overflow-hidden ${
+            <div
+              className={`w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-88 lg:h-88 xl:w-96 xl:h-96 rounded-full relative overflow-hidden animate-float ${
                 darkMode 
                   ? 'bg-gradient-to-br from-purple-600 to-blue-600' 
                   : 'bg-gradient-to-br from-blue-500 to-purple-500'
@@ -241,78 +203,44 @@ const Hero = ({ darkMode }) => {
                   />
                 </div>
               </div>
-            </motion.div>
+            </div>
             
             {/* Floating Elements */}
-            <motion.div
-              animate={{
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-10 h-10 sm:w-12 sm:h-12 bg-yellow-400 rounded-full opacity-80"
+            <div
+              className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-10 h-10 sm:w-12 sm:h-12 bg-yellow-400 rounded-full opacity-80 animate-spin-slow"
             />
-            <motion.div
-              animate={{
-                rotate: [360, 0],
-              }}
-              transition={{
-                duration: 15,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-6 h-6 sm:w-8 sm:h-8 bg-green-400 rounded-full opacity-80"
+            <div
+              className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-6 h-6 sm:w-8 sm:h-8 bg-green-400 rounded-full opacity-80 animate-spin-reverse"
             />
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 2 }}
-        className="absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block"
+      <div
+        className={`absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block transition-all duration-600 ease-out delay-2000 ${
+          heroVisible ? 'opacity-100' : 'opacity-0'
+        }`}
       >
-        <motion.div
-          animate={{
-            y: [0, 10, 0],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className={`w-6 h-10 border-2 rounded-full flex justify-center ${
+        <div
+          className={`animate-bounce-slow w-6 h-10 border-2 rounded-full flex justify-center ${
             darkMode ? 'border-gray-400' : 'border-gray-600'
           }`}
         >
-          <motion.div
-            animate={{
-              y: [0, 16, 0],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            className={`w-1 h-3 rounded-full mt-2 ${
+          <div
+            className={`w-1 h-3 rounded-full mt-2 animate-bounce-slow ${
               darkMode ? 'bg-gray-400' : 'bg-gray-600'
             }`}
           />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Work in Progress Notification */}
       {showNotification && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: 50 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.8, y: 50 }}
-          className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50 max-w-xs sm:max-w-sm"
+        <div
+          className={`fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50 max-w-xs sm:max-w-sm transition-all duration-300 ease-out ${
+            showNotification ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4'
+          }`}
         >
           <div className={`relative overflow-hidden rounded-2xl shadow-2xl ${
             darkMode 
@@ -325,19 +253,15 @@ const Hero = ({ darkMode }) => {
             {/* Content */}
             <div className="relative p-4 sm:p-6 flex items-center space-x-3 sm:space-x-4">
               {/* Animated icon */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center flex-shrink-0"
+              <div
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center flex-shrink-0 animate-spin-slow"
               >
-                <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  className="text-white text-lg sm:text-xl"
+                <div
+                  className="text-white text-lg sm:text-xl animate-pulse"
                 >
                   🚧
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
               
               {/* Message */}
               <div className="flex-1 min-w-0">
@@ -355,16 +279,13 @@ const Hero = ({ darkMode }) => {
               
               {/* Progress bar animation */}
               <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500">
-                <motion.div
-                  initial={{ width: "0%" }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 3, ease: "linear" }}
-                  className="h-full bg-gradient-to-r from-blue-400 to-purple-400"
+                <div
+                  className="h-full bg-gradient-to-r from-blue-400 to-purple-400 animate-progress"
                 />
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       )}
     </section>
   );

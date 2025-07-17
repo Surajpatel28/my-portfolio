@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { 
   SiPython, SiJavascript, SiCplusplus,
   SiReact, SiHtml5, SiCss3, SiMongodb, SiNodedotjs, SiExpress,
@@ -7,8 +6,13 @@ import {
   SiFastapi, SiTensorflow, SiOpencv, SiJupyter, SiGit
 } from 'react-icons/si';
 import { FiDatabase, FiCpu, FiCode, FiLayers } from 'react-icons/fi';
+import { useFastScrollAnimation, useStaggeredAnimation } from '../hooks/useFastAnimations';
 
 const Skills = ({ darkMode }) => {
+  // Ultra-fast scroll animations
+  const [headerRef, headerVisible] = useFastScrollAnimation();
+  const [specializationsRef, specializationsVisible] = useStaggeredAnimation(4, 100);
+  const [skillsRef, skillsVisible] = useFastScrollAnimation();
   const skillCategories = [
     {
       title: "Programming Languages",
@@ -76,12 +80,9 @@ const Skills = ({ darkMode }) => {
     >
       <div className="container mx-auto max-w-8xl">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
+        <div
+          ref={headerRef}
+          className={`text-center mb-16 ${headerVisible ? 'fade-in' : 'opacity-0'}`}
         >
           <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${
             darkMode ? 'text-white' : 'text-gray-900'
@@ -95,26 +96,19 @@ const Skills = ({ darkMode }) => {
             My expertise spans across multiple domains including programming languages, web development, 
             machine learning, and modern development frameworks
           </p>
-        </motion.div>
+        </div>
 
-        {/* Specializations Overview - Enhanced Mobile */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+        {/* Specializations Overview - Ultra Fast */}
+        <div
+          ref={specializationsRef}
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
         >
           {specializations.map((spec, index) => (
-            <motion.div
+            <div
               key={spec.name}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              className={`p-6 rounded-2xl text-center transition-all duration-300 min-h-32 ${
+              className={`p-6 rounded-2xl text-center hover-lift min-h-32 transition-all duration-150 ${
+                specializationsVisible.has(index) ? `fade-in-fast stagger-${index + 1}` : 'opacity-0'
+              } ${
                 darkMode 
                   ? 'bg-gray-900/50 border border-gray-700 hover:border-gray-600' 
                   : 'bg-white border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md'
@@ -131,20 +125,18 @@ const Skills = ({ darkMode }) => {
               }`}>
                 {spec.description}
               </p>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
-        {/* Skills Categories */}
-        <div className="grid lg:grid-cols-2 gap-8">
+        {/* Skills Categories - Ultra Fast */}
+        <div ref={skillsRef} className="grid lg:grid-cols-2 gap-8">
           {skillCategories.map((category, categoryIndex) => (
-            <motion.div
+            <div
               key={category.title}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: categoryIndex * 0.2 }}
-              viewport={{ once: true }}
-              className={`p-8 rounded-2xl relative overflow-hidden ${
+              className={`p-8 rounded-2xl relative overflow-hidden hover-lift transition-all duration-200 ${
+                skillsVisible ? `fade-in stagger-${categoryIndex + 1}` : 'opacity-0'
+              } ${
                 darkMode 
                   ? 'bg-gray-800 border border-gray-700' 
                   : 'bg-white border border-gray-200 shadow-lg'
@@ -169,15 +161,9 @@ const Skills = ({ darkMode }) => {
               {/* Mobile View - Enhanced Touch Experience */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 sm:hidden">
                 {category.skills.map((skill, skillIndex) => (
-                  <motion.div
+                  <div
                     key={skill.name}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4, delay: skillIndex * 0.05 }}
-                    viewport={{ once: true }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`p-4 rounded-xl transition-all duration-300 text-center min-h-20 flex flex-col items-center justify-center ${
+                    className={`p-4 rounded-xl hover-scale text-center min-h-20 flex flex-col items-center justify-center transition-all duration-150 ${
                       darkMode 
                         ? 'bg-gray-800/50 hover:bg-gray-700 border border-gray-700/30' 
                         : 'bg-white/50 hover:bg-white border border-gray-200/30'
@@ -194,21 +180,16 @@ const Skills = ({ darkMode }) => {
                     }`}>
                       {skill.name}
                     </span>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
 
               {/* Desktop View - Full cards */}
               <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {category.skills.map((skill, skillIndex) => (
-                  <motion.div
+                  <div
                     key={skill.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: skillIndex * 0.1 }}
-                    viewport={{ once: true }}
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    className={`p-4 rounded-lg transition-all duration-300 ${
+                    className={`p-4 rounded-lg hover-lift transition-all duration-150 ${
                       darkMode 
                         ? 'bg-gray-800/50 hover:bg-gray-700' 
                         : 'bg-gray-50 hover:bg-gray-100'
@@ -233,25 +214,19 @@ const Skills = ({ darkMode }) => {
                         </p>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
 
               {/* Decorative gradient */}
               <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${category.color} opacity-5 rounded-full -translate-y-16 translate-x-16`}></div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mt-16"
-        >
-          <div className={`inline-flex items-center px-6 py-3 rounded-full ${
+        {/* Bottom CTA - Ultra Fast */}
+        <div className="text-center mt-16 fade-in">
+          <div className={`inline-flex items-center px-6 py-3 rounded-full hover-scale transition-all duration-150 ${
             darkMode 
               ? 'bg-gray-800 border border-gray-700 text-gray-300' 
               : 'bg-white border border-gray-200 text-gray-600 shadow-sm'
@@ -260,7 +235,7 @@ const Skills = ({ darkMode }) => {
               🚀 Always learning and growing my technical expertise
             </span>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
