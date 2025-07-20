@@ -7,6 +7,7 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import ChatBot from './components/ChatBot';
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -54,6 +55,10 @@ const App = () => {
       </motion.main>
       
       <Footer darkMode={darkMode} />
+      
+      {/* As of now , not working because of undefined n8n workflow */}
+      {/* AI Chatbot */}
+      {/* <ChatBot darkMode={darkMode} /> */}
     </div>
   );
 };
