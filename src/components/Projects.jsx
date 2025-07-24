@@ -1,31 +1,20 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FiGithub, FiExternalLink, FiCode, FiDatabase, FiCpu, FiZap } from 'react-icons/fi';
-import { SiPython, SiReact, SiJavascript, SiOpencv, SiFastapi, SiMongodb, SiDocker, SiScikitlearn } from 'react-icons/si';
+import { SiPython, SiReact, SiJavascript, SiOpencv, SiFastapi, SiMongodb, SiDocker, SiScikitlearn} from 'react-icons/si';
 import { SOCIAL_LINKS } from '../constants/socialLinks';
 
 const Projects = ({ darkMode }) => {
   const projects = [
     {
-      title: "House Price Predictor",
-      description: "A machine learning application that predicts house prices using linear regression. Features data preprocessing, model training, and an intuitive interface for price estimation.",
-      tech: ["Python", "scikit-learn", "pandas", "Linear Regression"],
+      title: "Car Price Predictor",
+      description: "Car Price Prediction using predictive system. Utilized the Linear Regression from the Scikit-learn library",
+      tech: ["Python", "pandas", "scikit-learn", "Regression"],
       techIcons: [<SiPython />, <SiScikitlearn />],
-      category: "Machine Learning",
-      categoryIcon: <FiCpu />,
-      githubLink: `${SOCIAL_LINKS.github}/Boston_House_Price_Prediction`,
-      demoLink: `${SOCIAL_LINKS.github}/Boston_House_Price_Prediction#readme`,
-      featured: true
-    },
-    {
-      title: "Heart Disease Predictor",
-      description: "Medical diagnosis system using classification algorithms to predict heart disease risk. Includes comprehensive data analysis and model evaluation metrics.",
-      tech: ["Python", "pandas", "scikit-learn", "Classification"],
-      techIcons: [<SiPython />, <SiScikitlearn />],
-      category: "Healthcare AI",
+      category: "Supervised Learning",
       categoryIcon: <FiZap />,
-      githubLink: `${SOCIAL_LINKS.github}/Heart_Disease_Prediction`,
-      demoLink: `${SOCIAL_LINKS.github}/Heart_Disease_Prediction#readme`,
+      githubLink: `${SOCIAL_LINKS.github}/Car_Price_Prediction_Model`,
+      demoLink: `https://car-price-prediction-model-three.vercel.app/`,
       featured: true
     },
     {
@@ -37,6 +26,17 @@ const Projects = ({ darkMode }) => {
       categoryIcon: <FiCode />,
       githubLink: `${SOCIAL_LINKS.github}/Fake_News_Detector`,
       demoLink: `${SOCIAL_LINKS.github}/Fake_News_Detector#readme`,
+      featured: false
+    },
+    {
+      title: "AI-Driven Citation & Quotation Optimizer for GEO",
+      description: "Developed an AI-driven system using Streamlit to ingest and preprocess content, removing noise before passing it to a Gemini chain for intelligent processing and simulated AI response generation. This project showcases an end-to-end pipeline for content transformation and interactive AI feedback.",
+      tech: ["Python", "LangChain", "NLP", "Text Processing"],
+      techIcons: [<SiPython />],
+      category: "Natural Language Processing",
+      categoryIcon: <FiCode />,
+      githubLink: `${SOCIAL_LINKS.github}/https://github.com/Surajpatel28/AI-Driven-Citation-and-Quotation-Optimizer-for-GEO`,
+      demoLink: `${SOCIAL_LINKS.github}/AI-Driven-Citation-and-Quotation-Optimizer-for-GEO#readme`,
       featured: false
     }
   ];
