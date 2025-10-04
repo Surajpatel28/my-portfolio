@@ -49,7 +49,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
         <div className="flex justify-between items-center py-4">
           {/* Logo - Enhanced for Desktop */}
           <motion.div
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 0.95 }}
             className="flex items-center space-x-3 cursor-pointer"
             onClick={() => scrollToSection('#home')}
           >
@@ -58,12 +58,12 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                 ? 'bg-gradient-to-br from-blue-600 to-purple-600 text-white'
                 : 'bg-gradient-to-br from-blue-500 to-purple-500 text-white'
               }`}>
-              SP
+              <span className='text-2xl'>😎</span>
             </div>
 
             {/* Logo Text */}
             <div className="flex flex-col">
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-none">
+              <span className="text-xl font-bold bg-gradient-to-r from-purple-500 to-indigo-600 bg-clip-text text-transparent leading-none">
                 Suraj Patel
               </span>
               <span className={`text-xs font-medium leading-none mt-0.5 ${darkMode ? 'text-gray-400' : 'text-gray-600'

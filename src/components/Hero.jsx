@@ -5,7 +5,6 @@ import { SOCIAL_LINKS } from '../constants/socialLinks';
 import { useFastScrollAnimation, useStaggeredAnimation, useMicroInteraction } from '../hooks/useFastAnimations';
 import TextType from '../reactbits/TextType';
 import DecryptedText from '../reactbits/DecryptedText';
-import TargetCursor from '../reactbits/TargetCursor';
 
 const Hero = ({ darkMode }) => {
   const [showNotification, setShowNotification] = useState(false);
@@ -85,7 +84,7 @@ const Hero = ({ darkMode }) => {
           >
             <div style={{ marginTop: '0.5rem' }}>
               <DecryptedText
-                text="AI-ML and Full Stack Developer!"
+                text="AI-ML Enthusiast!"
                 animateOn="view"
                 revealDirection="center"
               />
