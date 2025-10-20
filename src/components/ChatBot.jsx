@@ -58,12 +58,11 @@ const useOptimizedScroll = (messagesEndRef, messages) => {
 const messagePropsAreEqual = (prevProps, nextProps) => {
   return prevProps.message.id === nextProps.message.id && 
          prevProps.message.text === nextProps.message.text &&
-         prevProps.message.sender === nextProps.message.sender &&
-         prevProps.darkMode === nextProps.darkMode;
+         prevProps.message.sender === nextProps.message.sender;
 };
 
-// Highly optimized Message Component with mobile-first design
-const Message = memo(({ message, darkMode }) => {
+// Highly optimized Message Component with mobile-first design (light-only)
+const Message = memo(({ message }) => {
   // Memoize mobile-optimized className calculations
   const containerClassName = useMemo(() => 
     `flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} mb-2 sm:mb-3`,
@@ -80,23 +79,19 @@ const Message = memo(({ message, darkMode }) => {
   const avatarClassName = useMemo(() => 
     `w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
       message.sender === 'user'
-        ? darkMode ? 'bg-blue-600' : 'bg-blue-500'
+        ? 'bg-blue-500'
         : 'bg-gradient-to-r from-purple-500 to-pink-500'
     }`,
-    [message.sender, darkMode]
+    [message.sender]
   );
 
   const bubbleClassName = useMemo(() => 
     `rounded-2xl px-3 py-2 sm:px-4 sm:py-2 break-words text-sm sm:text-sm leading-relaxed ${
       message.sender === 'user'
-        ? darkMode
-          ? 'bg-blue-600 text-white'
-          : 'bg-blue-500 text-white'
-        : darkMode
-          ? 'bg-gray-800 border border-gray-700 text-gray-200'
-          : 'bg-gray-100 text-gray-900'
+        ? 'bg-blue-500 text-white'
+        : 'bg-gray-100 text-gray-900'
     }`,
-    [message.sender, darkMode]
+    [message.sender]
   );
 
   return (
@@ -124,22 +119,18 @@ const Message = memo(({ message, darkMode }) => {
 
 Message.displayName = 'Message';
 
-// Mobile-optimized QuickSuggestions component with touch targets
-const QuickSuggestions = memo(({ suggestions, darkMode, onSuggestionClick }) => {
+// Mobile-optimized QuickSuggestions component with touch targets (light-only)
+const QuickSuggestions = memo(({ suggestions, onSuggestionClick }) => {
   // Touch-optimized button styling with minimum 44px height for accessibility
   const buttonClassName = useMemo(() => 
     `min-h-[44px] text-xs sm:text-sm px-3 py-2 rounded-full transition-all duration-200 
-     touch-manipulation active:scale-95 font-medium ${
-      darkMode
-        ? 'bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white'
-        : 'bg-gray-100 border border-gray-200 text-gray-700 hover:bg-gray-200 hover:text-gray-900'
-    }`,
-    [darkMode]
+     touch-manipulation active:scale-95 font-medium bg-gray-100 border border-gray-200 text-gray-700 hover:bg-gray-200 hover:text-gray-900`,
+    []
   );
 
   const headerClassName = useMemo(() => 
-    `text-xs sm:text-sm text-center font-medium ${darkMode ? 'text-gray-400' : 'text-gray-500'}`,
-    [darkMode]
+    `text-xs sm:text-sm text-center font-medium text-gray-500`,
+    []
   );
 
   return (
@@ -163,13 +154,12 @@ const QuickSuggestions = memo(({ suggestions, darkMode, onSuggestionClick }) => 
     </div>
   );
 }, (prevProps, nextProps) => 
-  prevProps.darkMode === nextProps.darkMode && 
   prevProps.suggestions === nextProps.suggestions
 );
 
 QuickSuggestions.displayName = 'QuickSuggestions';
 
-const ChatBot = ({ darkMode }) => {
+const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -489,11 +479,7 @@ const ChatBot = ({ darkMode }) => {
             animate="visible"
             exit="exit"
             onClick={() => setIsOpen(true)}
-            className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-lg flex items-center justify-center touch-manipulation ${
-              darkMode
-                ? 'bg-gradient-to-r from-blue-600 to-purple-600'
-                : 'bg-gradient-to-r from-blue-500 to-purple-500'
-            }`}
+            className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-lg flex items-center justify-center touch-manipulation bg-gradient-to-r from-blue-500 to-purple-500`}
             style={{
               // Ensure minimum touch target size for mobile (44px)
               minWidth: '44px',
@@ -517,17 +503,11 @@ const ChatBot = ({ darkMode }) => {
             className={`absolute flex flex-col overflow-hidden ${
               // Mobile: Better sizing - larger message area, proper proportions
               'bottom-2 right-2 w-[90vw] h-[80vh] max-w-sm max-h-[600px] rounded-2xl sm:bottom-0 sm:right-0 sm:w-96 sm:h-[500px]'
-            } shadow-2xl border ${
-              darkMode
-                ? 'bg-gray-900 border-gray-700'
-                : 'bg-white border-gray-200'
-            }`}
+            } shadow-2xl border bg-white border-gray-200`}
             style={{ zIndex: 100 }}
           >
             {/* Chat Header - Mobile Optimized */}
-            <div className={`p-3 sm:p-4 border-b flex items-center justify-between ${
-              darkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gray-50'
-            }`}>
+            <div className={`p-3 sm:p-4 border-b flex items-center justify-between border-gray-200 bg-gray-50`}>
               <div className="flex items-center space-x-2 sm:space-x-3">
                 <div className="relative">
                   <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
@@ -536,21 +516,17 @@ const ChatBot = ({ darkMode }) => {
                   <div className="absolute -bottom-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded-full border-2 border-white"></div>
                 </div>
                 <div>
-                  <h3 className={`font-semibold text-sm sm:text-base ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <h3 className={`font-semibold text-sm sm:text-base text-gray-900`}>
                     AI Assistant
                   </h3>
-                  <p className={`text-xs sm:text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  <p className={`text-xs sm:text-sm text-gray-600`}>
                     Ask about Suraj's work
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className={`p-2 rounded-lg transition-colors touch-manipulation ${
-                  darkMode
-                    ? 'hover:bg-gray-700 text-gray-400 hover:text-white'
-                    : 'hover:bg-gray-200 text-gray-600 hover:text-gray-900'
-                }`}
+                className={`p-2 rounded-lg transition-colors touch-manipulation hover:bg-gray-200 text-gray-600 hover:text-gray-900`}
                 style={{
                   // Ensure minimum touch target size
                   minWidth: '44px',
@@ -579,13 +555,13 @@ const ChatBot = ({ darkMode }) => {
                 >
                   {/* Show only last 10 messages on mobile, 15 on desktop */}
                   {messages.slice(window.innerWidth < 640 ? -10 : -15).map((message) => (
-                    <Message key={message.id} message={message} darkMode={darkMode} />
+                    <Message key={message.id} message={message} />
                   ))}
                 </div>
               ) : (
                 // Normal rendering for small lists
                 messages.map((message) => (
-                  <Message key={message.id} message={message} darkMode={darkMode} />
+                  <Message key={message.id} message={message} />
                 ))
               )}
 
@@ -596,20 +572,12 @@ const ChatBot = ({ darkMode }) => {
                     <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
                       <FiCpu className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                     </div>
-                    <div className={`rounded-2xl px-3 py-2 sm:px-4 sm:py-2 ${
-                      darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-gray-100'
-                    }`}>
+                    <div className={`rounded-2xl px-3 py-2 sm:px-4 sm:py-2 bg-gray-100`}>
                       <div className="flex space-x-1">
                         {/* Simplified loading dots for mobile */}
-                        <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-pulse ${
-                          darkMode ? 'bg-gray-500' : 'bg-gray-600'
-                        }`} />
-                        <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-pulse ${
-                          darkMode ? 'bg-gray-500' : 'bg-gray-600'
-                        }`} style={{ animationDelay: '100ms' }} />
-                        <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-pulse ${
-                          darkMode ? 'bg-gray-500' : 'bg-gray-600'
-                        }`} style={{ animationDelay: '200ms' }} />
+                        <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-pulse bg-gray-600`} />
+                        <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-pulse bg-gray-600`} style={{ animationDelay: '100ms' }} />
+                        <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-pulse bg-gray-600`} style={{ animationDelay: '200ms' }} />
                       </div>
                     </div>
                   </div>
@@ -621,7 +589,6 @@ const ChatBot = ({ darkMode }) => {
                 <div className="mb-3">
                   <QuickSuggestions 
                     suggestions={quickSuggestions}
-                    darkMode={darkMode}
                     onSuggestionClick={handleSuggestionClick}
                   />
                 </div>
@@ -631,9 +598,7 @@ const ChatBot = ({ darkMode }) => {
             </div>
 
             {/* Input Area - Mobile Optimized with compact design */}
-            <div className={`p-3 sm:p-4 border-t ${
-              darkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gray-50'
-            }`}>
+            <div className={`p-3 sm:p-4 border-t border-gray-200 bg-gray-50`}>
               <div className="flex items-center space-x-2">
                 <input
                   ref={inputRef}
@@ -643,11 +608,7 @@ const ChatBot = ({ darkMode }) => {
                   onKeyPress={handleKeyPress}
                   placeholder="Ask Something ..."
                   disabled={isLoading}
-                  className={`flex-1 px-3 py-2 sm:px-4 sm:py-2 rounded-full border focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 text-sm sm:text-base ${
-                    darkMode
-                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                  }`}
+                  className={`flex-1 px-3 py-2 sm:px-4 sm:py-2 rounded-full border focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 text-sm sm:text-base bg-white border-gray-300 text-gray-900 placeholder-gray-500`}
                   style={{
                     // Prevent zoom on iOS
                     fontSize: '16px'

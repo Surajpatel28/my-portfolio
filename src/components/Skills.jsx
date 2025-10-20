@@ -8,7 +8,7 @@ import {
 import { FiDatabase, FiCpu, FiCode, FiLayers } from 'react-icons/fi';
 import { useFastScrollAnimation, useStaggeredAnimation } from '../hooks/useFastAnimations';
 
-const Skills = ({ darkMode }) => {
+const Skills = () => {
   // Ultra-fast scroll animations
   const [headerRef, headerVisible] = useFastScrollAnimation();
   const [specializationsRef, specializationsVisible] = useStaggeredAnimation(4, 100);
@@ -74,9 +74,7 @@ const Skills = ({ darkMode }) => {
   return (
     <section 
       id="skills" 
-      className={`py-fluid-xl px-fluid-sm sm:px-fluid-md lg:px-fluid-lg ${
-        darkMode ? 'bg-gray-900/50' : 'bg-gray-50'
-      }`}
+      className={`py-fluid-xl px-fluid-sm sm:px-fluid-md lg:px-fluid-lg`}
     >
       <div className="container mx-auto max-w-8xl">
         {/* Section Header */}
@@ -84,15 +82,11 @@ const Skills = ({ darkMode }) => {
           ref={headerRef}
           className={`text-center mb-16 ${headerVisible ? 'fade-in' : 'opacity-0'}`}
         >
-          <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${
-            darkMode ? 'text-white' : 'text-gray-900'
-          }`}>
+          <h2 className={`text-4xl md:text-5xl font-bold mb-6 text-gray-900`}>
             Technical <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Skills</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
-          <p className={`mt-6 text-lg max-w-3xl mx-auto ${
-            darkMode ? 'text-gray-300' : 'text-gray-600'
-          }`}>
+          <p className={`mt-6 text-lg max-w-3xl mx-auto text-gray-600`}>
             My expertise spans across multiple domains including programming languages, web development, 
             machine learning, and modern development frameworks
           </p>
@@ -108,21 +102,13 @@ const Skills = ({ darkMode }) => {
               key={spec.name}
               className={`p-6 rounded-2xl text-center hover-lift min-h-32 transition-all duration-150 ${
                 specializationsVisible.has(index) ? `fade-in-fast stagger-${index + 1}` : 'opacity-0'
-              } ${
-                darkMode 
-                  ? 'bg-gray-900/50 border border-gray-700 hover:border-gray-600' 
-                  : 'bg-white border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md'
-              }`}
+              } bg-white border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md`}
             >
               <div className="text-3xl mb-3">{spec.icon}</div>
-              <h3 className={`font-semibold mb-2 text-base ${
-                darkMode ? 'text-white' : 'text-gray-900'
-              }`}>
+              <h3 className={`font-semibold mb-2 text-base text-gray-900`}>
                 {spec.name}
               </h3>
-              <p className={`text-sm ${
-                darkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>
+              <p className={`text-sm text-gray-600`}>
                 {spec.description}
               </p>
             </div>
@@ -136,11 +122,7 @@ const Skills = ({ darkMode }) => {
               key={category.title}
               className={`p-8 rounded-2xl relative overflow-hidden hover-lift transition-all duration-200 ${
                 skillsVisible ? `fade-in stagger-${categoryIndex + 1}` : 'opacity-0'
-              } ${
-                darkMode 
-                  ? 'bg-gray-800 border border-gray-700' 
-                  : 'bg-white border border-gray-200 shadow-lg'
-              }`}
+              } bg-white border border-gray-200 shadow-lg`}
             >
               {/* Category Header */}
               <div className="flex items-center mb-8">
@@ -149,9 +131,7 @@ const Skills = ({ darkMode }) => {
                     {category.icon}
                   </div>
                 </div>
-                <h3 className={`text-2xl font-bold ${
-                  darkMode ? 'text-white' : 'text-gray-900'
-                }`}>
+                <h3 className={`text-2xl font-bold text-gray-900`}>
                   {category.title}
                 </h3>
               </div>
@@ -163,21 +143,13 @@ const Skills = ({ darkMode }) => {
                 {category.skills.map((skill, skillIndex) => (
                   <div
                     key={skill.name}
-                    className={`p-4 rounded-xl hover-scale text-center min-h-20 flex flex-col items-center justify-center transition-all duration-150 ${
-                      darkMode 
-                        ? 'bg-gray-800/50 hover:bg-gray-700 border border-gray-700/30' 
-                        : 'bg-white/50 hover:bg-white border border-gray-200/30'
-                    }`}
+                    className={`p-4 rounded-xl hover-scale text-center min-h-20 flex flex-col items-center justify-center transition-all duration-150 bg-white/50 hover:bg-white border border-gray-200/30`}
                     title={skill.name}
                   >
-                    <div className={`text-2xl mb-2 ${
-                      darkMode ? 'text-blue-400' : 'text-blue-600'
-                    }`}>
+                    <div className={`text-2xl mb-2 text-blue-600`}>
                       {skill.icon}
                     </div>
-                    <span className={`text-xs font-medium ${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
+                    <span className={`text-xs font-medium text-gray-700`}>
                       {skill.name}
                     </span>
                   </div>
@@ -189,27 +161,17 @@ const Skills = ({ darkMode }) => {
                 {category.skills.map((skill, skillIndex) => (
                   <div
                     key={skill.name}
-                    className={`p-4 rounded-lg hover-lift transition-all duration-150 ${
-                      darkMode 
-                        ? 'bg-gray-800/50 hover:bg-gray-700' 
-                        : 'bg-gray-50 hover:bg-gray-100'
-                    }`}
+                    className={`p-4 rounded-lg hover-lift transition-all duration-150 bg-gray-50 hover:bg-gray-100`}
                   >
                     <div className="flex items-start">
-                      <div className={`text-2xl mr-3 flex-shrink-0 ${
-                        darkMode ? 'text-blue-400' : 'text-blue-600'
-                      }`}>
+                      <div className={`text-2xl mr-3 flex-shrink-0 text-blue-600`}>
                         {skill.icon}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h4 className={`font-semibold mb-1 ${
-                          darkMode ? 'text-white' : 'text-gray-900'
-                        }`}>
+                        <h4 className={`font-semibold mb-1 text-gray-900`}>
                           {skill.name}
                         </h4>
-                        <p className={`text-sm leading-relaxed ${
-                          darkMode ? 'text-gray-400' : 'text-gray-600'
-                        }`}>
+                        <p className={`text-sm leading-relaxed text-gray-600`}>
                           {skill.description}
                         </p>
                       </div>
@@ -226,11 +188,7 @@ const Skills = ({ darkMode }) => {
 
         {/* Bottom CTA - Ultra Fast */}
         <div className="text-center mt-16 fade-in">
-          <div className={`inline-flex items-center px-6 py-3 rounded-full hover-scale transition-all duration-150 ${
-            darkMode 
-              ? 'bg-gray-800 border border-gray-700 text-gray-300' 
-              : 'bg-white border border-gray-200 text-gray-600 shadow-sm'
-          }`}>
+            <div className={`inline-flex items-center px-6 py-3 rounded-full hover-scale transition-all duration-150 bg-white border border-gray-200 text-gray-600 shadow-sm`}>
             <span className="text-sm font-medium">
               🚀 Always learning and growing my technical expertise
             </span>

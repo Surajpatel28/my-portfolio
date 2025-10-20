@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiHeart, FiGithub, FiLinkedin, FiMail, FiArrowUp } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiMail, FiArrowUp } from 'react-icons/fi';
 import { FaXTwitter } from 'react-icons/fa6';
 import { SOCIAL_LINKS, PERSONAL_INFO } from '../constants/socialLinks';
 
-const Footer = ({ darkMode }) => {
+const Footer = () => {
+  const [isHighlighted, setIsHighlighted] = useState(false);
+
+  useEffect(() => {
+    const handleHighlight = () => {
+      setIsHighlighted(true);
+      setTimeout(() => {
+        setIsHighlighted(false);
+      }, 3000); // Highlight for 3 seconds
+    };
+
+    window.addEventListener('highlightConnect', handleHighlight);
+    return () => window.removeEventListener('highlightConnect', handleHighlight);
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -12,9 +26,8 @@ const Footer = ({ darkMode }) => {
   const quickLinks = [
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'Skills', href: '#about' },
+    { name: 'Projects', href: '#projects' }
   ];
 
   const socialLinks = [
@@ -48,11 +61,7 @@ const Footer = ({ darkMode }) => {
   };
 
   return (
-    <footer className={`relative ${
-      darkMode 
-        ? 'bg-gray-900 border-t border-gray-700' 
-        : 'bg-gray-50 border-t border-gray-200'
-    }`}>
+    <footer id="footer" className={`relative bg-gray-50 border-t border-gray-200`}>
       {/* Scroll to Top Button */}
       <motion.button
         onClick={scrollToTop}
@@ -68,24 +77,22 @@ const Footer = ({ darkMode }) => {
       </motion.button>
 
       {/* Mobile-First Footer Layout */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
+
         {/* Mobile Layout - Single Column */}
-        <div className="block md:hidden space-y-8">
+        <div className="block md:hidden space-y-6">
           {/* Brand Section - Mobile */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center space-y-4"
+            className="text-center space-y-2 sm:space-y-4"
           >
-            <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <div className="text-xl sm:text-2xl font-bold text-gray-800">
               {PERSONAL_INFO.name}
             </div>
-            <p className={`text-sm leading-relaxed ${
-              darkMode ? 'text-gray-400' : 'text-gray-600'
-            }`}>
+            <p className="text-xs sm:text-sm leading-relaxed text-gray-600">
               {PERSONAL_INFO.description}
             </p>
           </motion.div>
@@ -94,27 +101,41 @@ const Footer = ({ darkMode }) => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className="space-y-4"
+            className={`space-y-3 sm:space-y-4 p-4 sm:p-6 rounded-2xl ${isHighlighted
+              ? 'border-2 border-yellow-400'
+              : ''
+              }`}
+            animate={
+              isHighlighted
+                ? {
+                  borderColor: ['#facc15', '#fbbf24', '#facc15'],
+                  scale: [1, 1.02, 1],
+                }
+                : { borderColor: 'transparent', scale: 1 }
+            }
+            transition={
+              isHighlighted
+                ? {
+                  duration: 0.8,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }
+                : { duration: 0.3 }
+            }
           >
-            <h3 className={`text-center text-lg font-semibold ${
-              darkMode ? 'text-white' : 'text-gray-900'
-            }`}>
+            <h3 className={`text-center text-base sm:text-lg font-semibold transition-colors duration-500 ${isHighlighted ? 'text-gray-900' : 'text-gray-900'
+              }`}>
               Let's Connect
             </h3>
-            <div className="flex justify-center space-x-4">
+            <div className="flex justify-center space-x-3 sm:space-x-4">
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-4 rounded-full transition-all duration-300 touch:min-w-12 touch:min-h-12 ${
-                    darkMode
-                      ? 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
-                      : 'bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-900'
-                  }`}
+                  className="p-3 sm:p-4 rounded-full transition-all duration-300 touch:min-w-12 touch:min-h-12 bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-900"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.9 }}
                   initial={{ opacity: 0, scale: 0 }}
@@ -122,75 +143,11 @@ const Footer = ({ darkMode }) => {
                   transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
                   viewport={{ once: true }}
                   aria-label={social.label}
+                  animate={isHighlighted ? { scale: [1, 1.1, 1] } : {}}
                 >
                   {social.icon}
                 </motion.a>
               ))}
-            </div>
-          </motion.div>
-
-          {/* Quick Navigation - Mobile */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <div className="grid grid-cols-3 gap-2 max-w-sm mx-auto">
-              {quickLinks.slice(0, 6).map((link, index) => (
-                <motion.button
-                  key={link.name}
-                  onClick={() => scrollToSection(link.href)}
-                  className={`py-3 px-4 text-sm font-medium rounded-lg transition-all duration-200 touch:min-h-12 ${
-                    darkMode 
-                      ? 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 hover:text-white' 
-                      : 'bg-gray-100/50 text-gray-600 hover:bg-gray-200/50 hover:text-gray-900'
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.5 + index * 0.05 }}
-                  viewport={{ once: true }}
-                >
-                  {link.name}
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Made with Love - Mobile */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <div className="flex items-center justify-center space-x-1 mb-4">
-              <span className={`text-sm ${
-                darkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                Made with
-              </span>
-              <motion.div
-                animate={{
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <FiHeart className="text-red-500" size={16} />
-              </motion.div>
-              <span className={`text-sm ${
-                darkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                and React
-              </span>
             </div>
           </motion.div>
         </div>
@@ -205,38 +162,12 @@ const Footer = ({ darkMode }) => {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <div className="text-2xl font-bold text-gray-800">
               {PERSONAL_INFO.name}
             </div>
-            <p className={`text-sm leading-relaxed max-w-xs ${
-              darkMode ? 'text-gray-400' : 'text-gray-600'
-            }`}>
+            <p className={`text-sm leading-relaxed max-w-xs text-gray-600`}>
               {PERSONAL_INFO.description}
             </p>
-            <div className="flex items-center space-x-1">
-              <span className={`text-sm ${
-                darkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                Made with
-              </span>
-              <motion.div
-                animate={{
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <FiHeart className="text-red-500" size={16} />
-              </motion.div>
-              <span className={`text-sm ${
-                darkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                and React
-              </span>
-            </div>
           </motion.div>
 
           {/* Quick Links */}
@@ -247,9 +178,7 @@ const Footer = ({ darkMode }) => {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            <h3 className={`text-lg font-semibold ${
-              darkMode ? 'text-white' : 'text-gray-900'
-            }`}>
+            <h3 className={`text-lg font-semibold text-gray-900`}>
               Quick Links
             </h3>
             <ul className="space-y-2">
@@ -263,9 +192,7 @@ const Footer = ({ darkMode }) => {
                 >
                   <button
                     onClick={() => scrollToSection(link.href)}
-                    className={`text-sm transition-colors duration-200 hover:text-blue-500 ${
-                      darkMode ? 'text-gray-400' : 'text-gray-600'
-                    }`}
+                    className={`text-sm transition-colors duration-200 hover:text-blue-500 text-gray-600`}
                   >
                     {link.name}
                   </button>
@@ -278,18 +205,34 @@ const Footer = ({ darkMode }) => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
-            className="space-y-4"
+            className={`space-y-4 p-6 rounded-2xl ${isHighlighted
+              ? 'border-2 border-yellow-400'
+              : ''
+              }`}
+            animate={
+              isHighlighted
+                ? {
+                  borderColor: ['#facc15', '#fbbf24', '#facc15'],
+                  scale: [1, 1.02, 1],
+                }
+                : { borderColor: 'transparent', scale: 1 }
+            }
+            transition={
+              isHighlighted
+                ? {
+                  duration: 0.8,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }
+                : { duration: 0.3 }
+            }
           >
-            <h3 className={`text-lg font-semibold ${
-              darkMode ? 'text-white' : 'text-gray-900'
-            }`}>
+            <h3 className={`text-lg font-semibold transition-colors duration-500 ${isHighlighted ? 'text-gray-900' : 'text-gray-900'
+              }`}>
               Let's Connect
             </h3>
-            <p className={`text-sm ${
-              darkMode ? 'text-gray-400' : 'text-gray-600'
-            }`}>
+            <p className={`text-sm text-gray-600`}>
               Feel free to reach out for collaborations or just a friendly hello!
             </p>
             <div className="flex space-x-4">
@@ -299,11 +242,7 @@ const Footer = ({ darkMode }) => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-2 rounded-lg transition-all duration-300 ${
-                    darkMode
-                      ? 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
-                      : 'bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-900'
-                  }`}
+                  className={`p-2 rounded-lg transition-all duration-300 bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-900`}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.9 }}
                   initial={{ opacity: 0, scale: 0 }}
@@ -318,32 +257,8 @@ const Footer = ({ darkMode }) => {
             </div>
           </motion.div>
         </div>
-
-        {/* Bottom Section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          viewport={{ once: true }}
-          className={`mt-8 pt-8 border-t text-center ${
-            darkMode ? 'border-gray-700' : 'border-gray-200'
-          }`}
-        >
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
-            <p className={`text-sm ${
-              darkMode ? 'text-gray-400' : 'text-gray-600'
-            }`}>
-              © {new Date().getFullYear()} {PERSONAL_INFO.name}. All rights reserved.
-            </p>
-            <p className={`text-sm ${
-              darkMode ? 'text-gray-400' : 'text-gray-600'
-            }`}>
-              Built with React, Tailwind CSS & Framer Motion
-            </p>
-          </div>
-        </motion.div>
-      </div>
-    </footer>
+      </div >
+    </footer >
   );
 };
 

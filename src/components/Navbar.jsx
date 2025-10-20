@@ -1,34 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FiSun, FiMoon, FiMenu, FiX } from 'react-icons/fi';
-import GooeyNav from '../reactbits/GooeyNav';
-const Navbar = ({ darkMode, toggleDarkMode }) => {
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { FiMenu, FiX } from "react-icons/fi";
+
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      setScrolled(isScrolled);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' },
+    { name: "Home", href: "#home" },
+    { name: "About", href: "#about" },
+    { name: "Projects", href: "#projects" },
   ];
 
-  const scrollToSection = (sectionId) => {
-    const element = document.querySelector(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const scrollToSection = (id) => {
+    const el = document.querySelector(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
     setIsOpen(false);
   };
 
@@ -36,106 +28,44 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-          ? `backdrop-blur-md ${darkMode
-            ? 'bg-gray-900/80 border-gray-700'
-            : 'bg-white/80 border-gray-200'
-          } border-b`
-          : 'bg-transparent'
+        ? "backdrop-blur-md bg-white/80 border-b border-gray-200 shadow-sm"
+        : "bg-transparent"
         }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo - Enhanced for Desktop */}
-          <motion.div
-            whileHover={{ scale: 0.95 }}
-            className="flex items-center space-x-3 cursor-pointer"
-            onClick={() => scrollToSection('#home')}
-          >
-            {/* Logo Icon/Initial */}
-            <div className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg ${darkMode
-                ? 'bg-gradient-to-br from-blue-600 to-purple-600 text-white'
-                : 'bg-gradient-to-br from-blue-500 to-purple-500 text-white'
-              }`}>
-              <span className='text-2xl'>😎</span>
-            </div>
-
-            {/* Logo Text */}
-            <div className="flex flex-col">
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-500 to-indigo-600 bg-clip-text text-transparent leading-none">
-                Suraj Patel
-              </span>
-              <span className={`text-xs font-medium leading-none mt-0.5 ${darkMode ? 'text-gray-400' : 'text-gray-600'
-                }`}>
-                AI/ML Developer
-              </span>
-            </div>
-          </motion.div>
-
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="flex md:justify-center items-center py-4">
           {/* Desktop Navigation */}
-
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center justify-center space-x-10">
             {navItems.map((item, index) => (
               <motion.button
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
-                className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 ${darkMode
-                    ? 'text-gray-300 hover:text-white'
-                    : 'text-gray-700 hover:text-gray-900'
-                  }`}
-                whileHover={{ scale: 1.05 }}
-                initial={{ opacity: 0, y: -20 }}
+                className="group relative text-lg font-semibold text-gray-700 transition-all duration-200 hover:text-gray-900"
+                initial={{ opacity: 0, y: -15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
               >
-                {item.name}
-                <motion.span
-                  className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600"
-                  whileHover={{ width: '100%' }}
-                  transition={{ duration: 0.3 }}
-                />
+                {/* Text */}
+                <span className="relative z-10">{item.name}</span>
+
+                {/* Animata-style underline effect */}
+                <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 transition-all duration-500 group-hover:w-full"></span>
+                <span className="absolute left-0 bottom-0 h-[2px] w-full bg-gray-300 opacity-20"></span>
               </motion.button>
             ))}
-
-            {/* Theme Toggle */}
-            <motion.button
-              onClick={toggleDarkMode}
-              className={`p-2 rounded-full transition-colors duration-200 ${darkMode
-                  ? 'bg-gray-800 text-yellow-400 hover:bg-gray-700'
-                  : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                }`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {darkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
-            </motion.button>
           </div>
 
-          {/* Mobile Theme Toggle and Menu Button */}
-          <div className="md:hidden flex items-center space-x-3">
-            <motion.button
-              onClick={toggleDarkMode}
-              className={`p-3 rounded-full transition-colors duration-200 min-w-12 min-h-12 flex items-center justify-center touch:min-h-14 touch:min-w-14 ${darkMode
-                  ? 'bg-gray-800 text-yellow-400 hover:bg-gray-700'
-                  : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                }`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {darkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
-            </motion.button>
-
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center">
             <motion.button
               onClick={() => setIsOpen(!isOpen)}
-              className={`p-3 rounded-full transition-colors duration-200 min-w-12 min-h-12 flex items-center justify-center touch:min-h-14 touch:min-w-14 ${darkMode
-                  ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
+              className="p-3 rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200"
               whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              whileTap={{ scale: 0.95 }}
             >
-              {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+              {isOpen ? <FiX size={22} /> : <FiMenu size={22} />}
             </motion.button>
           </div>
         </div>
@@ -144,26 +74,22 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className={`md:hidden border-t ${darkMode ? 'border-gray-700 bg-gray-900/95' : 'border-gray-200 bg-white/95'
-              } backdrop-blur-md`}
+            className="md:hidden border-t border-gray-200 bg-white/95 backdrop-blur-md"
           >
-            <div className="px-4 py-6 space-y-2">
+            <div className="px-6 py-5 space-y-2">
               {navItems.map((item, index) => (
                 <motion.button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className={`w-full text-left py-4 px-4 text-base font-medium transition-colors duration-200 rounded-xl min-h-14 flex items-center ${darkMode
-                      ? 'text-gray-300 hover:text-white hover:bg-gray-800'
-                      : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
-                    }`}
-                  initial={{ opacity: 0, x: -20 }}
+                  className="w-full text-left py-3 px-4 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
+                  initial={{ opacity: 0, x: -15 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                 >
                   {item.name}
                 </motion.button>

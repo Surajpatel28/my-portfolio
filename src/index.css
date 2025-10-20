@@ -135,10 +135,7 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
 }
 
-/* Dark mode scrollbar */
-.dark ::-webkit-scrollbar-track {
-  background: #1f2937;
-}
+/* Dark mode removed */
 
 /* Selection color */
 ::selection {
@@ -146,12 +143,16 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
 }
 
-/* Smooth transitions for dark mode */
+/* Smooth transitions */
 * {
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Custom utilities */
+.cursor-sword {
+  cursor: url(/public/cursor.cur), auto
+}
+
 .gradient-text {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
@@ -163,11 +164,6 @@ h1, h2, h3, h4, h5, h6 {
   backdrop-filter: blur(20px);
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.dark .glass-effect {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Animation classes */
