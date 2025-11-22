@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['home', 'about', 'projects', 'contact'];
-      const scrollPosition = window.scrollY + 100;
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
 
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -29,8 +29,25 @@ const App = () => {
       }
     };
 
+    // Also handle hash changes when clicking anchor links
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash && ['home', 'about', 'projects', 'contact'].includes(hash)) {
+        setActiveSection(hash);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('hashchange', handleHashChange);
+
+    // Check hash on mount
+    handleHashChange();
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('hashchange', handleHashChange);
+    };
   }, []);
 
   const navLinks = [
@@ -174,8 +191,7 @@ const App = () => {
         </aside>
 
         {/* Mobile Nav (Sticky Top) */}
-        <div className="lg:hidden sticky top-0 z-50 bg-background border-b-2 border-primary/20 p-3 flex justify-between items-center">
-          <span className="font-heading text-white text-xs">SURAJ.EXE</span>
+        <div className="lg:hidden sticky top-0 z-50 bg-background border-b-2 border-primary/20 p-3 flex justify-center items-center">
           <div className="flex gap-2 text-[10px] font-bold">
             {navLinks.map((link) => (
               <a
@@ -373,7 +389,7 @@ const App = () => {
               <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 lg:gap-6">
                 <a
                   href={SOCIAL_LINKS.email}
-                  className="px-5 py-2.5 sm:px-6 sm:py-3 lg:px-8 lg:py-4 bg-secondary text-background font-bold hover:bg-white transition-colors uppercase flex items-center justify-center gap-2 text-xs sm:text-sm lg:text-base"
+                  className="px-5 py-2.5 sm:px-6 sm:py-3 lg:px-8 lg:py-4 bg-secondary text-background font-bold hover:bg-white transition-colors uppercase flex items-center justify-center gap-2 text-xs sm:text-sm lg:text-base cursor-pointer"
                 >
                   <LuMail /> Send Email
                 </a>
@@ -381,7 +397,7 @@ const App = () => {
                   href={SOCIAL_LINKS.linkedin}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-5 py-2.5 sm:px-6 sm:py-3 lg:px-8 lg:py-4 border-2 border-secondary text-secondary hover:bg-secondary hover:text-background transition-colors font-bold uppercase flex items-center justify-center gap-2 text-xs sm:text-sm lg:text-base"
+                  className="px-5 py-2.5 sm:px-6 sm:py-3 lg:px-8 lg:py-4 border-2 border-secondary text-secondary hover:bg-secondary hover:text-background transition-colors font-bold uppercase flex items-center justify-center gap-2 text-xs sm:text-sm lg:text-base cursor-pointer"
                 >
                   <LuLinkedin /> LinkedIn
                 </a>
