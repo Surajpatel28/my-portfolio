@@ -21,15 +21,32 @@ module.exports = {
     },
     extend: {
       colors: {
-        primary: '#4F46E5',
-        secondary: '#3B82F6',
-        accent: '#FBBF24',
-        dark: '#1F2937',
-        light: '#F9FAFB',
+        background: '#09090b', // zinc-950
+        surface: '#18181b',    // zinc-900
+        primary: '#a3e635',    // lime-400
+        secondary: '#e879f9',  // fuchsia-400
+        accent: '#22d3ee',     // cyan-400 (adding a third for variety if needed)
       },
       fontFamily: {
-        outfit: ['Outfit', 'sans-serif'],
-        inter: ['Inter', 'sans-serif'],
+        sans: ['"VT323"', 'monospace'],
+        serif: ['"VT323"', 'monospace'],
+        mono: ['"VT323"', 'monospace'],
+        heading: ['"Press Start 2P"', 'cursive'],
+      },
+      animation: {
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+      keyframes: {
+        blob: {
+          '0%': { transform: 'translate(0px, 0px) scale(1)' },
+          '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+          '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+          '100%': { transform: 'translate(0px, 0px) scale(1)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       fontSize: {
         'fluid-xs': 'clamp(0.75rem, 2vw, 0.875rem)',
@@ -65,22 +82,6 @@ module.exports = {
         'gradient-rainbow': 'linear-gradient(90deg, #FF0080, #FF8C00, #FFD700, #008000, #00BFFF, #8A2BE2)',
         'glass': 'rgba(255, 255, 255, 0.1)',
       },
-      animation: {
-        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'bounce-slow': 'bounce 3s infinite',
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'slide-up': 'slideUp 0.5s ease-out',
-      },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-      }
     },
   },
   darkMode: false,
