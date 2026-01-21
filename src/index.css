@@ -3,72 +3,33 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
   body {
-    @apply bg-background text-primary font-sans overflow-x-hidden;
+    @apply bg-white text-neutral-900 font-sans;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-heading uppercase;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight;
   }
 }
 
-/* Retro Grid Pattern */
-.bg-grid-pattern {
-  background-size: 40px 40px;
-  background-image:
-    linear-gradient(to right, rgba(163, 230, 53, 0.1) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(163, 230, 53, 0.1) 1px, transparent 1px);
-}
-
-/* Scanlines Effect */
-.scanlines {
-  background: linear-gradient(to bottom,
-      rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 0) 50%,
-      rgba(0, 0, 0, 0.2) 50%,
-      rgba(0, 0, 0, 0.2));
-  background-size: 100% 4px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 50;
-}
-
-/* Retro Scrollbar */
+/* Minimal scrollbar */
 ::-webkit-scrollbar {
-  width: 16px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-background border-l-2 border-primary/20;
+  @apply bg-neutral-100;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary border-2 border-background;
-  box-shadow: inset 2px 2px 0px 0px rgba(255, 255, 255, 0.5);
+  @apply bg-neutral-300 rounded;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary/80;
-}
-
-/* Hard Shadow Utility */
-.retro-shadow {
-  box-shadow: 4px 4px 0px 0px rgba(163, 230, 53, 0.5);
-}
-
-.retro-shadow-pink {
-  box-shadow: 4px 4px 0px 0px rgba(232, 121, 249, 0.5);
-}
-
-.animation-delay-4000 {
-  animation-delay: 4s;
+  @apply bg-neutral-400;
 }
