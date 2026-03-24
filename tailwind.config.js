@@ -5,8 +5,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['EB Garamond', 'Garamond', 'Georgia', 'serif'],
-        display: ['EB Garamond', 'Garamond', 'Georgia', 'serif']
+        sans: ['IBM Plex Sans', 'Segoe UI', 'sans-serif'],
+        display: ['Sora', 'Segoe UI', 'sans-serif']
       },
     },
   },

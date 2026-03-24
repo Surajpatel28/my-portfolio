@@ -3,7 +3,8 @@ export const SOCIAL_LINKS = {
   github: 'https://github.com/Surajpatel28',
   linkedin: 'https://linkedin.com/in/suraj-patel-353a6a255',
   twitter: 'https://twitter.com/surajpatel_1', // Add your X (Twitter) profile here
-  email: 'mailto:surajpatel1729@gmail.com'
+  email: 'mailto:suraj123patel123@gmail.com',
+  resume: `${process.env.PUBLIC_URL}/Surajresume.pdf`
 };
 
 // Personal Information
